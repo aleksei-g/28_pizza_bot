@@ -1,4 +1,40 @@
-# Here will be catalog models for SQLAlchemy
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy.orm import relationship
+from database import Base
+
+
+class Catalog(Base):
+    __tablename__ = 'catalog'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(50), unique=True)
+    description = Column(String(200))
+    choices = relationship('Choices',
+                           order_by='Choices.price',
+                           back_populates='catalog')
+
+    def __init__(self, title=None, description=None):
+        self.title = title
+        self.description = description
+
+    def __repr__(self):
+        return '{}: {}'.format(self.title, self.description)
+
+
+class Choices(Base):
+    __tablename__ = 'choices'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(50))
+    price = Column(Float)
+    catalog_id = Column(Integer, ForeignKey('catalog.id'))
+    catalog = relationship('Catalog', back_populates='choices')
+
+    def __init__(self, title=None, price=0):
+        self.title = title
+        self.price = price
+
+    def __repr__(self):
+        return '{} {} руб.'.format(self.title, self.price)
+
 
 # FIXME move catalog to db
 catalog = [
@@ -130,7 +166,8 @@ catalog = [
     },
     {
         'title': 'С курицей',
-        'description': 'соус,сыр Моцарелла,куриные грудки,помидоры,шампиньоны перец',
+        'description':
+            'соус,сыр Моцарелла,куриные грудки,помидоры,шампиньоны перец',
         'choices': [
             {
                 'title': '30см (550гр)',
@@ -144,7 +181,8 @@ catalog = [
     },
     {
         'title': 'Овощная',
-        'description': 'соус,сырМоцарелла,перец,лук,шампиньоны,кукуруза,маслины',
+        'description':
+            'соус,сырМоцарелла,перец,лук,шампиньоны,кукуруза,маслины',
         'choices': [
             {
                 'title': '30см (600гр)',
@@ -158,7 +196,9 @@ catalog = [
     },
     {
         'title': 'Четыре сезона',
-        'description': 'соус,сыр Моцарелла,1/4 салями,1/4 мясная,1/4 ветчина грибы,1/4 четыре',
+        'description':
+            'соус,сыр Моцарелла,1/4 салями,1/4 мясная,1/4 ветчина грибы,'
+            '1/4 четыре',
         'choices': [
             {
                 'title': '30см (600гр)',
@@ -172,7 +212,8 @@ catalog = [
     },
     {
         'title': 'Кальцоне',
-        'description': 'соус, сыр Моцарелла, ветчина, грибы, чесночное масло, кунжут',
+        'description':
+            'соус, сыр Моцарелла, ветчина, грибы, чесночное масло, кунжут',
         'choices': [
             {
                 'title': '30см (520гр)',
@@ -186,7 +227,9 @@ catalog = [
     },
     {
         'title': 'С тунцом',
-        'description': 'соус, сыр Моцарелла, тунец консервированный, помидоры, лук репчатый, маслины',
+        'description':
+            'соус, сыр Моцарелла, тунец консервированный, помидоры, '
+            'лук репчатый, маслины',
         'choices': [
             {
                 'title': '30см (570гр)',

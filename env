@@ -1,0 +1,6 @@
+#examlpes environment parameters
+export BOT_TOKEN='110831855:AAE_GbIeVAUwk11O12vq4UeMnl20iADUtM'
+export DB_URI='sqlite:///app.db'
+export SECRET_KEY='your secret key'
+export USER_NAME='admin'
+export PASSWORD='admin'

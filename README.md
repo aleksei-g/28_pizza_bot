@@ -1,19 +1,78 @@
 # Telegram Bot for Pizzeria
 
-[TODO. There will be project description]
+# Телеграм бот для Пицерии
 
-# How to Use
+Данный проект реализует телеграм бота для пицерии, с помощью которого выводится
+меню пицерии из базы данных. Сама база данных доступна для редактирования через 
+админку в веб-интерфейсе, доступ к которой реализован с помощью HTTP Basic Auth.
 
-Step 1. Register new telegram bot for development purposes, get the new token. [@BotFather](https://telegram.me/botfather)
+# Установка
 
-Step 2. Launch
-
+Для корректоной работы необходимо выполнить установку модулей, перечисленных в
+файле `requirements.txt`, запустив команду: 
 ```
-#!bash
-
-$ # the token below is not actual, you need to register a new one
-$ BOT_TOKEN="110831855:AAE_GbIeVAUwk11O12vq4UeMnl20iADUtM" python3 bot.py
+pip install -r requirements.txt
 ```
+
+# Перед использованием
+
+**Шаг 1.**
+Зарегистрировать нового бота у [@BotFather](https://telegram.me/botfather) и 
+получить от него новый токен.
+
+**Шаг 2.**
+Создать структуру таблиц базы данных и произвести ее первоначальне заполнение,
+запустив скрипт `create_db.py` c параметром окружения `DB_URI` URI базы 
+данных:
+
+*Пример:*
+```
+DB_URI="sqlite:///app.db" python3 create_db.py
+```
+
+# Использование
+
+Для запуска телеграм бота воспользуйтесь скриптом `bot.py`, который потребует
+от вас следующих параметров окружения:
+* **DB_URI** - URI базы данных
+* **BOT_TOKEN** - токен телеграм бота
+
+*Пример:*
+```
+DB_URI="sqlite:///app.db" BOT_TOKEN="110831855:AAE_GbIeVAUwk11O12vq4UeMnl20iADUtM" python3 bot.py
+```
+
+Для запуска веб-сервера, на котором реализована админка для управления базой 
+данных, используйте скрипт `server.py` cо следующими параметрами окружения:
+* **DB_URI** - URI базы данных
+* **SECRET_KEY** - секретный ключ сессии
+* **USER_NAME** - имя пользователя для доступа к админке
+* **PASSWORD** - пароль пользователя для доступа к админке
+
+*Пример:*
+```
+DB_URI="sqlite:/app.db" SECRET_KEY="your secret key" USER_NAME="admin" PASSWORD="admin" python3 server.py 
+```
+Админка будет доступна по адресу 
+[http://127.0.0.1:5000/admin/]([http://127.0.0.1:5000/admin/])
+
+# Альтернативный вариант передачи параметров окружения
+
+Чтобы не передавать параметры окружения при запуске скрипта, в репозитории
+создан файл `env`, в котором перечислены все необходимые для работы скриптов 
+параметры окружения. Измените их значения на свои, выполните команду в 
+терминальной сессии:
+```
+source env
+```
+После чего любому запущенному скрипту в текущей терминальной сессии будут 
+доступны все перечисленные в файле `env` параметры окружения.
+```
+python3 create_db.py
+python3 bot.py
+python3 server.py
+```
+
 # Project Goals
 
 The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
