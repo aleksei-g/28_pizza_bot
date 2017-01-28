@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from database import base
 
 
-class Catalog(Base):
+class Catalog(base):
     __tablename__ = 'catalog'
     id = Column(Integer, primary_key=True)
     title = Column(String(50), unique=True)
@@ -20,7 +20,7 @@ class Catalog(Base):
         return '{}: {}'.format(self.title, self.description)
 
 
-class Choices(Base):
+class Choices(base):
     __tablename__ = 'choices'
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
