@@ -1,5 +1,6 @@
 from database import init_db, db_session
-from models import Pizza, PizzaChoices, catalog
+from models import Pizza, PizzaChoices
+from pizza_catalog import catalog
 
 
 init_db()
