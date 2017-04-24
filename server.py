@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from models import Catalog, Choices
+from models import Pizza, PizzaChoices
 from database import db_session
 from os import getenv
 from werkzeug.exceptions import HTTPException
@@ -15,7 +15,7 @@ class AuthException(HTTPException):
             {'WWW-Authenticate': 'Basic realm="Login Required"'}))
 
 
-class ModelView(ModelView):
+class PizzaModelView(ModelView):
     def check_auth(self, username, password):
         return username == USER_NAME and password == PASSWORD
 
@@ -34,8 +34,8 @@ if not SECRET_KEY or not USER_NAME or not PASSWORD:
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 admin = Admin(app, name='Pizza', template_mode='bootstrap3')
-admin.add_view(ModelView(Catalog, db_session))
-admin.add_view(ModelView(Choices, db_session))
+admin.add_view(PizzaModelView(Pizza, db_session))
+admin.add_view(PizzaModelView(PizzaChoices, db_session))
 
 
 @app.teardown_appcontext

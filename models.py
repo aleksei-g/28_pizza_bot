@@ -3,14 +3,14 @@ from sqlalchemy.orm import relationship
 from database import base
 
 
-class Catalog(base):
-    __tablename__ = 'catalog'
+class Pizza(base):
+    __tablename__ = 'pizza'
     id = Column(Integer, primary_key=True)
     title = Column(String(50), unique=True)
     description = Column(String(200))
-    choices = relationship('Choices',
-                           order_by='Choices.price',
-                           back_populates='catalog')
+    choices = relationship('PizzaChoices',
+                           order_by='PizzaChoices.price',
+                           back_populates='pizza')
 
     def __init__(self, title=None, description=None):
         self.title = title
@@ -20,13 +20,13 @@ class Catalog(base):
         return '{}: {}'.format(self.title, self.description)
 
 
-class Choices(base):
-    __tablename__ = 'choices'
+class PizzaChoices(base):
+    __tablename__ = 'pizza_choices'
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
     price = Column(Float)
-    catalog_id = Column(Integer, ForeignKey('catalog.id'))
-    catalog = relationship('Catalog', back_populates='choices')
+    pizza_id = Column(Integer, ForeignKey('pizza.id'))
+    pizza = relationship('Pizza', back_populates='choices')
 
     def __init__(self, title=None, price=0):
         self.title = title
